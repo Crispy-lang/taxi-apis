@@ -1,0 +1,67 @@
+{
+	"name": "taxi24",
+	"version": "1.0.0",
+	"description": "APIs that companies can use to manage their fleet drivers and allocate drivers to passengers.",
+	"main": "index.js",
+	"scripts": {
+		"lint": "npx eslint ./server/**/*.js",
+		"lint-fix": "npx eslint --fix ./server/**/*.js",
+		"db-migrate": "npx sequelize db:migrate",
+		"start": "babel-watch app.js",
+		"seed": "NODE_ENV=test npx sequelize db:seed:all",
+		"test": "npm run test-migrate && npm run seed && NODE_ENV=test nyc --report=text npx mocha server/test/ --require @babel/register",
+		"build": "babel app.js --out-dir build",
+		"dev": "NODE_ENV=development nodemon  --require @babel/register app.js",
+		"coverage": "nyc report --reporter=text-lcov | coveralls",
+		"dbInit-dev": "NODE_ENV=development sequelize db:create || NODE_ENV=development sequelize db:migrate",
+		"dbInit-test": "NODE_ENV=test npx sequelize db:create || NODE_ENV=test npx sequelize db:migrate",
+		"dbInit": "npm run dbInit-dev || npm run dbInit-test",
+		"test-migrate": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/giseleiradu/taxi-apis.git"
+	},
+	"keywords": [
+		"taxi",
+		"drivers",
+		"trip"
+	],
+	"author": "giseleiradu",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/giseleiradu/taxi-apis/issues"
+	},
+	"homepage": "https://github.com/giseleiradu/taxi-apis#readme",
+	"dependencies": {
+		"babel-register": "^6.26.0",
+		"express": "^4.17.1",
+		"sequelize": "^5.21.2",
+		"sequelize-cli": "^5.5.1",
+		"slug": "^0.9.1",
+		"swagger-jsdoc": "^3.2.9",
+		"swagger-ui-express": "^4.0.2",
+		"dotenv": "^6.2.0",
+		"errorhandler": "^1.5.0",
+		"joi": "^14.3.1"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.4.3",
+		"@babel/core": "^7.4.3",
+		"@babel/node": "^7.2.2",
+		"@babel/preset-env": "^7.4.3",
+		"@babel/register": "^7.4.0",
+		"@sindresorhus/slugify": "^0.9.1",
+		"babel-preset-env": "^1.7.0",
+		"babel-register": "^6.26.0",
+		"babel-watch": "^7.0.0",
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"eslint-plugin-import": "^2.16.0",
+		"nodemon": "^1.18.10",
+		"path": "^0.12.7",
+		"pg": "^7.9.0",
+		"pg-hstore": "^2.3.2",
+		"request": "^2.87.0"
+	}
+}
