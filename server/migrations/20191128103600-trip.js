@@ -1,6 +1,6 @@
 "use strict";
 
-export default{
+export default {
 	up: (queryInterface, Sequelize) =>
 		queryInterface.createTable("Trips", {
 			id: {
@@ -19,8 +19,12 @@ export default{
 				allowNull: false
 			},
 			amount: {
-        type: Sequelize.STRING,
+				type: Sequelize.INTEGER,
 				allowNull: false
+			},
+			userId: {
+				allowNull: false,
+				type: Sequelize.INTEGER
 			},
 			createdAt: {
 				allowNull: false,

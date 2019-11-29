@@ -1,26 +1,58 @@
-'use strict';
+"use strict";
+
+import moment from "moment";
+
+// generate createdDate and updateDate
+const createdAt = moment().format();
+const updatedAt = createdAt;
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.bulkInsert(
+			"Invoices",
+			[
+				{
+					slug: "invoice-yambere",
+					title: "urugendo rwambere",
+					userId: 2,
+					cost: 1000,
+					tripId: 1,
+					createdAt,
+					updatedAt
+				},
+				{
+					slug: "invoice-yakabiri",
+					title: "urugendo rwakabiri",
+					userId: 4,
+					cost: 1000,
+					tripId: 2,
+					createdAt,
+					updatedAt
+				},
+				{
+					slug: "invoice-yagatatu",
+					title: "urugendo rwagatatu",
+					userId: 2,
+					cost: 1000,
+					tripId: 3,
+					createdAt,
+					updatedAt
+				},
+				{
+					slug: "invoice-yakane",
+					title: "urugendo rwakane",
+					userId: 4,
+					cost: 1000,
+					tripId: 1,
+					createdAt,
+					updatedAt
+				}
+			],
+			{}
+		);
+	},
 
-      Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-  },
-
-  down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
-  }
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.bulkDelete("Invoices", null, {});
+	}
 };

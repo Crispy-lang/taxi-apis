@@ -18,6 +18,14 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
+			userId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			tripId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
 			cost: {
 				type: Sequelize.INTEGER
 			},
