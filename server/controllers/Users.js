@@ -92,6 +92,23 @@ class Users {
 			return error;
 		}
 	}
+	static async getUserById(req, res) {
+		const { id } = req.params;
+
+		try {
+			const user = await User.findOne({
+				where: {
+					id
+				},
+				returning: true
+			});
+			return res.status(200).json({
+				user
+			});
+		} catch (error) {
+			return error;
+		}
+	}
 }
 
 export default Users;
