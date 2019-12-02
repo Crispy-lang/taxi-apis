@@ -20,9 +20,6 @@ export default (sequelize, DataTypes) => {
 			phone: {
 				type: DataTypes.STRING
 			},
-			roleId: {
-				type: DataTypes.INTEGER
-			}
 		},
 		{}
 	);
@@ -42,10 +39,6 @@ export default (sequelize, DataTypes) => {
 		User.belongsToMany(models.Invoice, {
 			through: "TheirInvoice",
 			foreignKey: "userId"
-		});
-		User.belongsTo(models.Role, {
-			foreignKey: "roleId",
-			targetKey: "id"
 		});
 	};
 
