@@ -109,6 +109,34 @@ class Users {
 			return error;
 		}
 	}
+	static async getNearByRiders(req, res) {
+		const { driverId } = req.params;
+		try {
+			const driver = await User.findOne({
+				where: {
+					role: "driver",
+					id: driverId,
+					isAvailable: true
+				},
+				returning: true
+			});
+			const riders = await User.findAll({
+				where: {
+					role: "rider",
+					distance: 3,
+					location: driver.location,
+					isAvailable: true
+				},
+				limit: 2,
+				returning: true
+			});
+			return res.status(200).json({
+				riders
+			});
+		} catch (error) {
+			return error;
+		}
+	}
 }
 
 export default Users;
