@@ -14,12 +14,24 @@ export default (sequelize, DataTypes) => {
 			lastname: {
 				type: DataTypes.STRING
 			},
-			roles: {
+			role: {
 				type: DataTypes.STRING
 			},
 			phone: {
 				type: DataTypes.STRING
 			},
+			location: {
+				type: DataTypes.STRING,
+				allowNull: false
+			},
+			isAvailable: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true
+			},
+			distance: {
+				type: DataTypes.INTEGER,
+				allowNull: true
+			}
 		},
 		{}
 	);
@@ -44,3 +56,4 @@ export default (sequelize, DataTypes) => {
 
 	return User;
 };
+``;

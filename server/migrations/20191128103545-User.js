@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
 	up: (queryInterface, Sequelize) =>
 		queryInterface.createTable("Users", {
@@ -19,15 +18,22 @@ module.exports = {
 			lastname: {
 				type: Sequelize.STRING
 			},
-			roles: {
+			role: {
 				type: Sequelize.STRING
 			},
 			phone: {
 				type: Sequelize.INTEGER,
 				unique: true
 			},
-			roleId: {
-				type: Sequelize.INTEGER
+			location:{
+				type: Sequelize.STRING,
+				allowNull: false
+			},
+			isAvailable: {
+				type: Sequelize.BOOLEAN
+			},
+			distance: {
+				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,
