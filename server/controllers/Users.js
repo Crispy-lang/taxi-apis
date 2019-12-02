@@ -46,11 +46,19 @@ class Users {
 		try {
 			if (identifier === "driver" || identifier === "rider") {
 				const users = await User.findAll({
-					where: { roles: identifier },
+					where: { role: identifier },
 					returning: true
 				});
 				return res.status(200).json({
 					users
+				});
+			} else if (identifier === "available") {
+				const drivers = await User.findAll({
+					where: { isAvailable: true },
+					returning: true
+				});
+				return res.status(200).json({
+					availableDrivers: drivers
 				});
 			} else {
 				const user = await User.findOne({
@@ -61,6 +69,25 @@ class Users {
 					user
 				});
 			}
+		} catch (error) {
+			return error;
+		}
+	}
+	static async getUserByLocation(req, res) {
+		const { location } = req.params;
+		try {
+			const users_in_3Km = await User.findAll({
+				where: {
+					role: "driver",
+					distance: 3,
+					location,
+					isAvailable: true
+				},
+				returning: true
+			});
+			return res.status(200).json({
+				users_in_3Km
+			});
 		} catch (error) {
 			return error;
 		}
