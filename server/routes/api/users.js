@@ -1,11 +1,8 @@
 import express from "express";
-import userController from "../../controllers/users";
-import validate from "../../middlewares/validations";
-import schema from "../../middlewares/validations/users.schema";
+import userController from "../../controllers/Users";
 
 const router = express.Router();
 router.get("/users", userController.listUsers);
-router.put("/user/:username", userController.update);
-router.get("/users/:username", userController.getUserInfo);
+router.get("/users/:identifier", userController.getUserByIdentifier);
 
 export default router;

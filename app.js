@@ -1,7 +1,18 @@
-const express = require("express");
+import express from "express";
+import routes from "./server/routes";
+
+// Create global app object
 const app = express();
-const port = 3000;
 
-app.get("/", (req, res) => res.send("Hello World!"));
+app.use(express.json());
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use(routes);
+
+app.use("*", (req, res) => {
+	res.status(400).json({ status: 400, message: "Bad request" });
+});
+
+// finally, let's start our server...
+const server = app.listen(process.env.PORT, () => {});
+
+export default server;
