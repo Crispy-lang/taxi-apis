@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			driverId: DataTypes.INTEGER,
 			riderId: DataTypes.INTEGER,
-			distance: DataTypes.INTEGER,
-			status: DataTypes.STRING
+			isCompleted: DataTypes.BOOLEAN
 		},
 		{}
 	);
@@ -33,9 +32,20 @@ module.exports = (sequelize, DataTypes) => {
 	Trip.associate = function(models) {
 		Trip.belongsTo(models.User, {
 			foreignKey: "driverId",
+			targetKey: "id"
 		});
 		Trip.belongsTo(models.User, {
 			foreignKey: "riderId",
+			targetKey: "id"
+		});
+		Trip.hasMany(models.Invoice, {
+			foreignKey: "tripId",
+			sourceKey: "id"
+		});
+		Trip.belongsToMany(models.User, {
+			through: "TheirInvoice",
+			foreignKey: "tripId",
+			targetKey: "id"
 		});
 
 	};

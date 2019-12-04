@@ -1,9 +1,9 @@
 import express from "express";
-import tripsController from "../../controllers/Trips";
+import tripController from "../../controllers/Trips";
 
 const router = express.Router();
-router.get("/trips/:status", tripsController.listTripsByStatus);
-router.post("/trips", tripsController.createTrip);
-router.put("/trips/:id/:status", tripsController.terminateTrip);
+router.get("/trips/active", tripsController.listActiveTrips);
+router.post("/trip", tripsController.postTrip);
+router.put("/trips/complete", tripController.terminateTrip);
 
 export default router;

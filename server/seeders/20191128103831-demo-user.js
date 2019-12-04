@@ -58,54 +58,6 @@ module.exports = {
 					distance: 2,
 					createdAt,
 					updatedAt
-				},
-				{
-					username: "bezos",
-					firstname: "Luc",
-					lastname: "Tuyi",
-					role: "rider",
-					phone: 555,
-					location: "kacyiru",
-					isAvailable: true,
-					distance: 3,
-					createdAt,
-					updatedAt
-				},
-				{
-					username: "jo",
-					firstname: "jordy",
-					lastname: "simbizi",
-					role: "rider",
-					phone: 5555,
-					location: "kacyiru",
-					isAvailable: true,
-					distance: 3,
-					createdAt,
-					updatedAt
-				},
-				{
-					username: "fro",
-					firstname: "frank",
-					lastname: "mutabazi",
-					role: "rider",
-					phone: 666,
-					location: "kacyiru",
-					isAvailable: true,
-					distance: 3,
-					createdAt,
-					updatedAt
-				},
-				{
-					username: "beat",
-					lastname: "mutombo",
-					firstname: "vincent",
-					role: "rider",
-					phone: 777,
-					location: "kacyiru",
-					isAvailable: true,
-					distance: 3,
-					createdAt,
-					updatedAt
 				}
 			],
 			{}
