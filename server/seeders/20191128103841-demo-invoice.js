@@ -17,6 +17,7 @@ module.exports = {
 					userId: 2,
 					cost: 1000,
 					tripId: 1,
+					paid: false,
 					createdAt,
 					updatedAt
 				},
@@ -26,6 +27,7 @@ module.exports = {
 					userId: 4,
 					cost: 1000,
 					tripId: 2,
+					paid: false,
 					createdAt,
 					updatedAt
 				},
@@ -35,6 +37,7 @@ module.exports = {
 					userId: 2,
 					cost: 1000,
 					tripId: 3,
+					paid: false,
 					createdAt,
 					updatedAt
 				},
@@ -44,6 +47,7 @@ module.exports = {
 					userId: 4,
 					cost: 1000,
 					tripId: 1,
+					paid: false,
 					createdAt,
 					updatedAt
 				}

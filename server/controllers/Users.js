@@ -127,7 +127,7 @@ class Users {
 					location: driver.location,
 					isAvailable: true
 				},
-				limit: 2,
+				limit: 3,
 				returning: true
 			});
 			return res.status(200).json({
