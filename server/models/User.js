@@ -36,22 +36,19 @@ export default (sequelize, DataTypes) => {
 		{}
 	);
 	User.associate = models => {
-		User.hasMany(models.Trip, {
-			foreignKey: "userId",
-			sourceKey: "id"
-		});
+		// User.hasMany(models.Trip);
+		// User.hasMany(models.Trip, {
+		// 	foreignKey: "riderId",
+		// 	sourceKey: "id"
+		// });
 		User.hasMany(models.Invoice, {
 			foreignKey: "userId"
 		});
-		User.belongsToMany(models.Trip, {
-			through: "TakenTrips",
-			foreignKey: "userId",
-			targetKey: "id"
-		});
-		User.belongsToMany(models.Invoice, {
-			through: "TheirInvoice",
-			foreignKey: "userId"
-		});
+		// ś
+		// User.belongsToMany(models.Invoice, {
+		// 	through: "TheirInvoice",
+		// 	foreignKey: "userId"
+		// });
 	};
 
 	return User;

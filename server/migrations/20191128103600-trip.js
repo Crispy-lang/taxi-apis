@@ -9,22 +9,35 @@ export default {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			slug: {
+			starting: {
 				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true
+				allowNull: false
+			},
+			destination: {
+				type: Sequelize.STRING,
+				allowNull: false
 			},
 			title: {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
-			amount: {
+			driverId: {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
-			userId: {
-				allowNull: false,
+			riderId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			amount: {
 				type: Sequelize.INTEGER
+			},
+			distance: {
+				type: Sequelize.INTEGER
+			},
+			status: {
+				type: Sequelize.STRING,
+				allowNull: false
 			},
 			createdAt: {
 				allowNull: false,

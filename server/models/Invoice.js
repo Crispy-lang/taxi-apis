@@ -12,17 +12,18 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			},
 			userId: {
-				type: DataTypes.INTEGER,
-				references: {
-					model: "User",
-					Key: "id"
-				}
+				type: DataTypes.INTEGER
 			},
 			cost: {
 				type: DataTypes.INTEGER,
 				allowNull: false
 			},
-			tripId: DataTypes.INTEGER
+			tripId: {
+				type: DataTypes.INTEGER
+			},
+			paid: {
+				type: DataTypes.BOOLEAN
+			}
 		},
 		{}
 	);
@@ -33,11 +34,6 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		Invoice.belongsTo(models.User, {
 			foreignKey: "userId",
-			targetKey: "id"
-		});
-		Invoice.belongsToMany(models.User, {
-			through: "TheirInvoice",
-			foreignKey: "invoiceId",
 			targetKey: "id"
 		});
 	};
