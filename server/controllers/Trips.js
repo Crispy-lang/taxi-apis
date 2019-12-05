@@ -108,7 +108,6 @@ class Trips {
 					},
 					{ returning: true }
 				);
-				console.log("created", created);
 				return res.status(200).json({
 					createdTrip: created
 				});
