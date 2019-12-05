@@ -12,12 +12,6 @@ module.exports = {
 				type: Sequelize.STRING,
 				unique: true
 			},
-			firstname: {
-				type: Sequelize.STRING
-			},
-			lastname: {
-				type: Sequelize.STRING
-			},
 			role: {
 				type: Sequelize.STRING
 			},
@@ -25,15 +19,16 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				unique: true
 			},
-			location:{
+			location: {
 				type: Sequelize.STRING,
+				allowNull: false
+			},
+			distance: {
+				type: Sequelize.DECIMAL,
 				allowNull: false
 			},
 			isAvailable: {
 				type: Sequelize.BOOLEAN
-			},
-			distance: {
-				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,

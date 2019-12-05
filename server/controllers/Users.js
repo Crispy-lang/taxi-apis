@@ -1,7 +1,6 @@
-import dotenv from "dotenv";
-import { User } from "../models/index";
-
-dotenv.config();
+import "dotenv/config";
+import { User, UserLocation } from "../models/index";
+import getDistanceInKM from "../helpers/getDistanceInKM";
 
 /**
  * The class handle everything about the user
@@ -20,9 +19,10 @@ class Users {
 		try {
 			const result = await User.findAll({
 				attributes: {
-					exclude: ["createdAt", "updatedAt"]
+					exclude: ["createdAt", "updatedAt", "distance"]
 				}
 			});
+
 			return res.status(200).json({
 				status: 200,
 				users: result
@@ -42,15 +42,44 @@ class Users {
 	 * @memberof Users
 	 */
 	static async getUserByIdentifier(req, res) {
+		const {
+			distance,
+			longitude: myLongitude,
+			latitude: myLatitude
+		} = req.query;
 		const { identifier } = req.params;
 		try {
 			if (identifier === "driver" || identifier === "rider") {
 				const users = await User.findAll({
 					where: { role: identifier },
-					returning: true
+					returning: true,
+					include: [
+						{
+							model: UserLocation,
+							attributes: ["id", "latitude", "longitude"]
+						}
+					]
 				});
+				const filterUsers =
+					myLongitude && myLatitude
+						? users.filter(user => {
+								const { latitude, longitude } = user.UserLocation
+									? user.UserLocation.get()
+									: {};
+								const dist = getDistanceInKM(
+									myLatitude,
+									myLongitude,
+									latitude,
+									longitude
+								);
+								if (Math.floor(dist) <= (distance || 3)) {
+									return true;
+								}
+								return false;
+						  })
+						: users;
 				return res.status(200).json({
-					users
+					users: filterUsers
 				});
 			} else if (identifier === "available") {
 				const drivers = await User.findAll({
@@ -70,7 +99,7 @@ class Users {
 				});
 			}
 		} catch (error) {
-			return error;
+			return error.message;
 		}
 	}
 	static async getUserByLocation(req, res) {
@@ -109,8 +138,13 @@ class Users {
 			return error;
 		}
 	}
-	static async getNearByRiders(req, res) {
+	static async getNearByUsers(req, res) {
 		const { driverId } = req.params;
+		const {
+			distance,
+			longitude: myLongitude,
+			latitude: myLatitude
+		} = req.query;
 		try {
 			const driver = await User.findOne({
 				where: {
@@ -118,20 +152,75 @@ class Users {
 					id: driverId,
 					isAvailable: true
 				},
+				include: {
+					model: UserLocation,
+					attributes: ["id", "latitude", "longitude"]
+				},
 				returning: true
 			});
 			const riders = await User.findAll({
 				where: {
 					role: "rider",
-					distance: 3,
 					location: driver.location,
 					isAvailable: true
 				},
-				limit: 3,
-				returning: true
+				include: {
+					model: UserLocation,
+					attributes: ["id", "latitude", "longitude"]
+				},
+				exclude: ["createdAt", "updatedAt"]
+			});
+			const filterRiders =
+				myLongitude && myLatitude
+					? riders.filter(rider => {
+							const { latitude, longitude } = rider.UserLocation
+								? rider.UserLocation.get()
+								: {};
+							const dist = getDistanceInKM(
+								myLatitude,
+								myLongitude,
+								latitude,
+								longitude
+							);
+							if (Math.floor(dist) <= (distance || 3)) {
+								return true;
+							}
+							return false;
+					  })
+					: riders;
+			const sortedRiders = filterRiders.sort((rider1, rider2) => {
+				const dist = getDistanceInKM(
+					myLatitude,
+					myLongitude,
+					UserLocation.latitude,
+					UserLocation.longitude
+				);
+				return dist.valueOf() > rider2.dist.valueOf();
 			});
 			return res.status(200).json({
-				riders
+				drivername: driver.username,
+				sortedRiders
+			});
+		} catch (error) {
+			return error.message;
+		}
+	}
+	static async changeAvailability(req, res) {
+		const { id } = req.params;
+		try {
+			const foundUser = await User.findOne({
+				where: { id },
+				returning: true
+			});
+			const user = await User.update(
+				{ isAvailable: !foundUser.isAvailable },
+				{
+					where: { id },
+					returning: true
+				}
+			);
+			return res.status(200).json({
+				updatedUser: user[1]
 			});
 		} catch (error) {
 			return error;

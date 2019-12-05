@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-import { Trip, User, Invoice } from "../models/index";
+import { Trip, User, Invoice, UserLocation } from "../models/index";
+import getDistanceInKM from "../helpers/getDistanceInKM";
 
 dotenv.config();
 
@@ -61,7 +62,7 @@ class Trips {
 						returning: true
 					}
 				);
-				if (status === "completed") {
+				if (status === "complete") {
 					const [Trip] = trip[1];
 					await Invoice.create(
 						{
@@ -85,6 +86,7 @@ class Trips {
 	}
 	static async createTrip(req, res) {
 		const trip = req.body;
+		// const { longitude: myLongitude, latitude: myLatitude } = req.query;
 		try {
 			const driver = await User.findOne({
 				where: { id: trip.driverId, role: "driver" },
@@ -92,18 +94,29 @@ class Trips {
 			});
 			const rider = await User.findOne({
 				where: { id: trip.riderId, role: "rider" },
-				returning: true
+				returning: true,
+				include: {
+					model: UserLocation,
+					attributes: ["id", "latitude", "longitude"]
+				}
 			});
+
+			const dist = getDistanceInKM(
+				rider.UserLocation.latitude,
+				rider.UserLocation.longitude,
+				trip.destinationLat,
+				trip.destinationLong
+			);
 			if (rider && driver) {
 				const created = await Trip.create(
 					{
-						starting: trip.starting,
-						destination: trip.destination,
-						title: "from " + trip.starting + " to " + trip.destination,
+						starting: `${rider.UserLocation.latitude} ${rider.UserLocation.longitude}`,
+						destination: `${trip.destinationLat} ${trip.destinationLong}`,
+						title: `from trip from ${rider.UserLocation.latitude} ${rider.UserLocation.longitude} to ${trip.destinationLat} ${trip.destinationLong}`,
 						driverId: trip.driverId,
 						riderId: trip.riderId,
 						amount: trip.amount,
-						distance: 10,
+						distance: parseInt(dist),
 						status: "waitting"
 					},
 					{ returning: true }

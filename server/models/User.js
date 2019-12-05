@@ -8,12 +8,6 @@ export default (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true
 			},
-			firstname: {
-				type: DataTypes.STRING
-			},
-			lastname: {
-				type: DataTypes.STRING
-			},
 			role: {
 				type: DataTypes.STRING
 			},
@@ -24,33 +18,27 @@ export default (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false
 			},
+			distance: {
+				type: DataTypes.DECIMAL,
+				allowNull: false
+			},
 			isAvailable: {
 				type: DataTypes.BOOLEAN,
-				allowNull: true
-			},
-			distance: {
-				type: DataTypes.INTEGER,
 				allowNull: true
 			}
 		},
 		{}
 	);
 	User.associate = models => {
-		// User.hasMany(models.Trip);
-		// User.hasMany(models.Trip, {
-		// 	foreignKey: "riderId",
-		// 	sourceKey: "id"
-		// });
 		User.hasMany(models.Invoice, {
 			foreignKey: "userId"
 		});
-		// ś
-		// User.belongsToMany(models.Invoice, {
-		// 	through: "TheirInvoice",
-		// 	foreignKey: "userId"
-		// });
+	};
+	User.associate = models => {
+		User.hasOne(models.UserLocation, {
+			foreignKey: "userId"
+		});
 	};
 
 	return User;
 };
-``;
